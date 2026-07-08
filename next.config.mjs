@@ -3,9 +3,12 @@ const supabaseHostname = process.env.NEXT_PUBLIC_SUPABASE_URL
   ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname
   : null;
 
+const isVercel = process.env.VERCEL === "1";
+
 const nextConfig = {
-  // Avoid Windows file locking/permission issues on the default `.next` folder.
-  distDir: "next-dist",
+  // Keep Vercel on the default `.next` output, but use `next-dist` locally on Windows
+  // to avoid file locking issues during development.
+  ...(isVercel ? {} : { distDir: "next-dist" }),
   images: {
     remotePatterns: supabaseHostname
       ? [
