@@ -1,7 +1,6 @@
 import type { SubmissionStatus } from "@/types/database";
 
 const ACTIVE_STATUSES: SubmissionStatus[] = ["new", "under_review", "planned"];
-const INACTIVE_STATUSES: SubmissionStatus[] = ["completed", "rejected"];
 
 function isActiveStatus(status: string): boolean {
   return ACTIVE_STATUSES.includes(status as SubmissionStatus);

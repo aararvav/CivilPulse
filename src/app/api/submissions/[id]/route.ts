@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { extractStoragePath } from "@/lib/submissions/photo-url";
-import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 
 export async function DELETE(
