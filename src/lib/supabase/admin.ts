@@ -1,0 +1,27 @@
+import { createClient } from "@supabase/supabase-js";
+import type { Database } from "@/types/database";
+
+function getRealtimeOptions() {
+  if (typeof window !== "undefined") return {};
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const WebSocket = require("ws");
+    return { realtime: { transport: WebSocket } };
+  } catch {
+    return {};
+  }
+}
+
+export function createAdminClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!url || !key) {
+    throw new Error("Missing Supabase admin credentials");
+  }
+
+  return createClient<Database>(url, key, {
+    auth: { persistSession: false, autoRefreshToken: false },
+    ...getRealtimeOptions(),
+  });
+}
